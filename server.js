@@ -14,7 +14,8 @@ app.use(cors());
 app.use('/peerjs',peerServer);
 app.use(morgan('dev'));
 app.get('/',(req,res)=>{
-   res.send('Heroku node working');
+   res.send('Heroku node working: '+process.env.PORT);
+   console.log(process.env.PORT);
 });
 
 io.on('connection',socket=>{
@@ -42,5 +43,4 @@ io.on('connection',socket=>{
         }
     });
 });
-console.log(process.env.PORT);
 server.listen(process.env.PORT || 3000);
