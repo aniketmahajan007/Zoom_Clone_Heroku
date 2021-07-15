@@ -13,6 +13,9 @@ const peerServer = ExpressPeerServer(server,{
 app.use(cors());
 app.use('/peerjs',peerServer);
 app.use(morgan('dev'));
+app.get('/',(req,res)=>{
+   res.send('Heroku node working');
+});
 
 io.on('connection',socket=>{
     socket.on('create-room',new_roomid => {
