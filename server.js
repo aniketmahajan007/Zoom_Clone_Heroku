@@ -8,7 +8,8 @@ const io = require('socket.io')(server,{
 
 const cors = require('cors');
 const peerServer = ExpressPeerServer(server,{
-    debug: true
+    debug: true,
+    allow_discovery: true,
 })
 app.use(cors());
 app.use('/peerjs',peerServer);
