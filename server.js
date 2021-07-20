@@ -1,16 +1,23 @@
 const {ExpressPeerServer} = require("peer");
 const app = require('express')();
+const morgan = require('morgan');
 const server = require('http').Server(app);
 const io = require('socket.io')(server,{
     cors: '*'
 });
-const {v1: uuid} = require('uuid');
+
 const cors = require('cors');
 const peerServer = ExpressPeerServer(server,{
-    debug: true
+    debug: true,
+    allow_discovery: true,
 })
 app.use(cors());
 app.use('/peerjs',peerServer);
+app.use(morgan('dev'));
+app.get('/',(req,res)=>{
+    res.send('Heroku node working: '+process.env.PORT);
+    console.log(process.env.PORT);
+});
 
 io.on('connection',socket=>{
     socket.on('create-room',(new_roomid, username) => {
@@ -43,4 +50,4 @@ io.on('connection',socket=>{
     })
 });
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
